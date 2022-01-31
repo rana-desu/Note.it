@@ -1,0 +1,100 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Ubuntu:wght@300&display=swap');
+
+    .home-container {
+        display: flex;
+    }
+
+    #category-container {
+        width: 25%;
+        border-radius: 5px;
+        background-color: rgb(11, 22, 34);
+        color: #7dffff;
+        font-family: 'Ubuntu', sans-serif;
+        padding-bottom: 16px;
+    }
+
+    .category-items {
+        padding: 10px;
+    }
+    .category-links {
+        text-decoration: none;
+        margin: 8px 4px;
+        color: #b2bdbd;
+    }
+
+    #notes-container {
+        width: 75%;
+        margin-left: 25px;
+        background-color: rgb(11, 22, 34);
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    #notes {
+        background-color: rgb(21,34,50);
+        border-radius: 5px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    #notes > a, #title {
+        text-decoration: none;
+    }
+
+    #title {
+        color: #7dffff;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20px;
+    }
+
+
+</style>
+
+<div class="home-container">
+
+    <div id="category-container">
+        <h3 style="margin-left:10px;">Browse Notes</h3>
+
+        <div class="category-items">
+            <a href="{% url 'home' %}" class="category-links">All</a>
+        </div>
+         
+        {% for topic in topics %}
+            <div class="category-items">
+                <a href="{% url 'home' %}?q={{topic.name}}" class="category-links">{{topic}}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div id="notes-container">
+
+        <div style="margin-left:10px;">
+            <h5 style="color:white; font-family: 'Open Sans', sans-serif;">{{note_count}} note(s) available</h5>
+    
+            <a href="{% url 'create-note' %}" id="create-note"> Create a Note</a>
+        </div>
+
+        <div id="notes-div">
+            {% for note in notes %}
+                <div id="notes">
+                    {% if request.user == note.host %}
+                    <a href="{% url 'update-note' note.id %}">Edit</a>
+                    <a href="{% url 'delete-note' note.id %}">Delete</a>
+                    {% endif %}
+
+                    <h5><a href="{% url 'note' note.id %}" id="title"> {{note.name}} </a></h5>
+                    <small style="color:white; font-family: 'Ubuntu', sans-serif;"> {{note.topic.name}} </small>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock content %}

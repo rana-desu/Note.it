@@ -1,0 +1,15 @@
+html {
+    background-color: rgb(21,34,50);
+}    
+
+body {
+    margin: 0px;
+    margin-top: 100px;
+    color: white;
+}
+
+#page-wrapper {
+    margin: auto;
+    width: 75%;
+}
+
